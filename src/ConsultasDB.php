@@ -14,8 +14,6 @@ class ConsultasDB
         $this->conexion = DB::obtenerInstancia()->obtenerConexion();
     }
 
-
-
     // Obtener todas las canciones o filtradas por fecha
     public function obtenerCanciones($fecha = null)
     {
@@ -29,8 +27,7 @@ class ConsultasDB
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-
+    // Obtener canción por ID
     public function obtenerCancionPorId($id)
     {
         $stmt = $this->conexion->prepare("SELECT * FROM canciones WHERE id = :id");
@@ -39,10 +36,6 @@ class ConsultasDB
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-
-
-
-
     // Obtener fechas únicas
     public function obtenerFechas()
     {
@@ -50,17 +43,19 @@ class ConsultasDB
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
-
-
-
     // Borrar una canción por ID
     public function borrarCancion($id)
     {
-        $stmt = $this->conexion->prepare("DELETE FROM canciones WHERE id = :id");
+        $stmt = $this->conexion->prepare("DELETE FROM canciones WHERE ID = :id"); // Verifica el uso de 'ID' en mayúsculas
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        return $stmt->execute();
-    }
 
+        if (!$stmt->execute()) {
+            error_log('Error al borrar canción: ' . print_r($stmt->errorInfo(), true));
+            return false;
+        }
+
+        return true;
+    }
 
 
 
@@ -77,8 +72,7 @@ class ConsultasDB
         return $stmt->execute();
     }
 
-
-
+    // Obtener usuario por email
     public function obtenerUsuarioPorEmail($email)
     {
         $stmt = $this->conexion->prepare("SELECT * FROM usuario WHERE email = :email");
@@ -86,6 +80,4 @@ class ConsultasDB
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC); // Devuelve un array asociativo si encuentra el usuario
     }
-
-
 }

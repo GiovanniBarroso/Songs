@@ -4,6 +4,7 @@ namespace App;
 
 use PDO;
 use PDOException;
+use App\Logger;
 
 class DB
 {
@@ -17,6 +18,8 @@ class DB
 
     private function __construct()
     {
+        $logger = Logger::getLogger();
+
         try {
             $this->conexion = new PDO(
                 "mysql:host=$this->host;dbname=$this->baseDatos;charset=utf8mb4",
@@ -24,7 +27,9 @@ class DB
                 $this->password
             );
             $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $logger->info('Conexión exitosa a la base de datos.');
         } catch (PDOException $e) {
+            $logger->error('Error de conexión.', ['error' => $e->getMessage()]);
             die("Error de conexión: " . $e->getMessage());
         }
     }
@@ -39,12 +44,20 @@ class DB
 
     public function obtenerConexion()
     {
+        $logger = Logger::getLogger();
+
+        if ($this->conexion) {
+            $logger->info('Conexión obtenida correctamente.');
+        } else {
+            $logger->warning('Conexión no válida.');
+        }
         return $this->conexion;
     }
 
     private function __clone()
     {
     }
+
     public function __wakeup()
     {
     }

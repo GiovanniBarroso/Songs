@@ -12,6 +12,20 @@
     <div class="container mt-5">
         <h1 class="text-center">Modificar Canción</h1>
 
+        <!-- Mostrar errores -->
+        <?php if (!empty($error)): ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Mostrar mensajes de éxito -->
+        <?php if (!empty($mensaje)): ?>
+            <div class="alert alert-success" role="alert">
+                <?php echo htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8'); ?>
+            </div>
+        <?php endif; ?>
+
         <form class="card shadow-sm p-4" method="POST" action="../public/editar.php">
             <!-- Input oculto para pasar el ID -->
             <input type="hidden" name="id" value="<?php echo htmlspecialchars($cancion['ID'], ENT_QUOTES, 'UTF-8'); ?>">
@@ -38,7 +52,7 @@
             </div>
 
             <!-- Botón de enviar -->
-            <button type="submit" class="btn btn-primary w-100">Modificar</button>
+            <button type="submit" name="editar" class="btn btn-primary w-100">Modificar</button>
         </form>
     </div>
 </body>
