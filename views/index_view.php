@@ -9,7 +9,6 @@
     <title>Lista de Canciones</title>
 </head>
 
-
 <body>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -19,14 +18,12 @@
             </form>
         </div>
 
-
         <!-- Mensaje de éxito -->
         <?php if (!empty($_GET['mensaje'])): ?>
             <div class="alert alert-success text-center">
                 <?php echo htmlspecialchars($_GET['mensaje'], ENT_QUOTES, 'UTF-8'); ?>
             </div>
         <?php endif; ?>
-
 
         <!-- Formulario de filtro por fecha -->
         <form class="d-flex justify-content-between mb-4 align-items-end">
@@ -45,11 +42,9 @@
             <button type="submit" class="btn btn-primary">Buscar</button>
         </form>
 
-
         <!-- Tabla de canciones -->
         <div class="table-container">
             <table class="table table-striped table-hover align-middle">
-
                 <thead class="table-dark">
                     <tr>
                         <th>Autor</th>
@@ -58,7 +53,6 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     <?php if (empty($canciones)): ?>
                         <tr>
@@ -73,13 +67,10 @@
                                 <td>
                                     <div class="d-flex gap-2">
                                         <?php if ($cancion['puedeBorrar']): ?>
-                                            <!-- Enlace para borrar -->
                                             <a href="borrar.php?id=<?php echo htmlspecialchars($cancion['id'], ENT_QUOTES, 'UTF-8'); ?>" 
                                                class="btn btn-danger btn-sm">Borrar</a>
                                         <?php endif; ?>
-
                                         <?php if ($cancion['puedeEditar']): ?>
-                                            <!-- Enlace para editar -->
                                             <a href="editar.php?id=<?php echo htmlspecialchars($cancion['id'], ENT_QUOTES, 'UTF-8'); ?>" 
                                                class="btn btn-warning btn-sm">Editar</a>
                                         <?php endif; ?>
@@ -89,15 +80,27 @@
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
-                
             </table>
         </div>
 
+        <!-- Paginación -->
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Paginación">
+                <ul class="pagination">
+                    <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+                        <li class="page-item <?php echo ($pagina === $i) ? 'active' : ''; ?>">
+                            <a class="page-link" href="?pagina=<?php echo $i; ?>&fecha=<?php echo htmlspecialchars($fechaSeleccionada, ENT_QUOTES, 'UTF-8'); ?>">
+                                <?php echo $i; ?>
+                            </a>
+                        </li>
+                    <?php endfor; ?>
+                </ul>
+            </nav>
+        </div>
 
         <footer>
             <p>&copy; <?php echo date('Y'); ?> Sistema de Gestión de Canciones</p>
         </footer>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

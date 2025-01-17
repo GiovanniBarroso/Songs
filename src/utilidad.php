@@ -19,7 +19,7 @@ class Utilidad
     }
 
 
-    
+
     // Método auxiliar para ejecutar consultas
     private function ejecutarConsulta($query, $params = [])
     {
@@ -40,20 +40,46 @@ class Utilidad
 
 
     // Obtener todas las canciones o filtradas por fecha
-    public function obtenerCanciones($fecha = null)
+    public function obtenerCanciones($fecha = null, $limit = 10, $offset = 0)
     {
         $query = $fecha
-            ? "SELECT id, autor, titulo, fecha FROM canciones WHERE fecha = :fecha ORDER BY fecha ASC"
-            : "SELECT id, autor, titulo, fecha FROM canciones ORDER BY fecha ASC";
+            ? "SELECT id, autor, titulo, fecha FROM canciones WHERE fecha = :fecha ORDER BY fecha ASC LIMIT :limit OFFSET :offset"
+            : "SELECT id, autor, titulo, fecha FROM canciones ORDER BY fecha ASC LIMIT :limit OFFSET :offset";
+        $params = $fecha
+            ? ['fecha' => $fecha, 'limit' => $limit, 'offset' => $offset]
+            : ['limit' => $limit, 'offset' => $offset];
+
+        try {
+            $stmt = $this->conexion->prepare($query);
+            $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', (int) $offset, PDO::PARAM_INT);
+
+            if ($fecha) {
+                $stmt->bindValue(':fecha', $fecha, PDO::PARAM_STR);
+            }
+
+            $stmt->execute();
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (!$resultado) {
+                $this->logger->warning('No se encontraron canciones', ['fecha' => $fecha]);
+            }
+
+            return $resultado;
+        } catch (PDOException $e) {
+            $this->logger->error('Error en la consulta SQL', ['error' => $e->getMessage()]);
+            throw new \Exception("Error en la consulta SQL: " . $e->getMessage());
+        }
+    }
+
+    public function contarCanciones($fecha = null)
+    {
+        $query = $fecha
+            ? "SELECT COUNT(*) FROM canciones WHERE fecha = :fecha"
+            : "SELECT COUNT(*) FROM canciones";
         $params = $fecha ? ['fecha' => $fecha] : [];
 
-        $resultado = $this->ejecutarConsulta($query, $params)->fetchAll(PDO::FETCH_ASSOC);
-
-        if (!$resultado) {
-            $this->logger->warning('No se encontraron canciones', ['fecha' => $fecha]);
-        }
-
-        return $resultado;
+        return (int) $this->ejecutarConsulta($query, $params)->fetchColumn();
     }
 
 

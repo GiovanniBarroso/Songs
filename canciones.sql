@@ -42,7 +42,7 @@ CREATE TABLE `canciones` (
 
 INSERT INTO `canciones` (`ID`, `autor`, `titulo`, `fecha`) VALUES
 (1, 'The Beatles', 'Hey Jude', '2025-05-06'),
-(2, 'Led Zeppelin', 'Stairway to Heaven', '2025-01-15'),
+(2, 'Led Zeppelin', 'Stairway to Heaven', '2025-01-20'),
 (3, 'Queen', 'Bohemian Rhapsody', '2024-02-01'),
 (4, 'Pink Floyd', 'Comfortably Numb', '2024-06-08'),
 (5, 'The Rolling Stones', 'Paint It Black', '2024-06-07'),
@@ -137,4 +137,4 @@ COMMIT;
 
 SELECT * FROM canciones;
 
-DELETE FROM canciones WHERE ID = 2;
+DELETE FROM canciones WHERE ID > 0;
