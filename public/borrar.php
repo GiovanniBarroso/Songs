@@ -12,13 +12,13 @@ $error = '';
 $mensaje = '';
 $cancion = null;
 
-$consultasDB = new utilidad();
+$utilidad = new utilidad();
 
 // Validar que se recibe un ID
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $id = intval($_GET['id']);
     $logger->info('Valor de ID antes de intval', ['id' => $id]);
-    $cancion = $consultasDB->obtenerCancionPorId($id);
+    $cancion = $utilidad->obtenerCancionPorId($id);
 
     if (!$cancion) {
         $error = 'La canción especificada no existe.';
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
         $error = 'ID inválido. No se puede borrar.';
         $logger->error('ID inválido recibido en POST.', ['id' => $id]);
     } else {
-        $resultado = $consultasDB->borrarCancion($id);
+        $resultado = $utilidad->borrarCancion($id);
 
         if ($resultado) {
             $mensaje = 'La canción se ha borrado correctamente.';

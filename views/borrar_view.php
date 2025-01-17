@@ -31,8 +31,6 @@
                 <form class="d-flex justify-content-between" method="POST" action="borrar.php">
                     <input type="hidden" name="id"
                         value="<?php echo htmlspecialchars($cancion['ID'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-                    <?php error_log('ID enviado en el formulario: ' . ($cancion['id'] ?? 'NULL'));
-                    ?>
                     <button type="submit" name="confirmar" class="btn btn-danger">Borrar</button>
                     <a href="index.php" class="btn btn-secondary">Cancelar</a>
                 </form>
