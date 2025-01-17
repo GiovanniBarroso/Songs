@@ -10,16 +10,30 @@ class DB
 {
     private static $instancia = null;
     private $conexion;
+    private $logger;
 
-    private $host = 'localhost';
-    private $usuario = 'root';
-    private $password = '';
-    private $baseDatos = 'canciones';
+    private $host;
+    private $usuario;
+    private $password;
+    private $baseDatos;
 
     private function __construct()
     {
-        $logger = Logger::getLogger();
+        $this->logger = Logger::getLogger();
 
+        // Cargar configuración
+        $this->host = getenv('DB_HOST') ?: 'localhost';
+        $this->usuario = getenv('DB_USER') ?: 'root';
+        $this->password = getenv('DB_PASSWORD') ?: '';
+        $this->baseDatos = getenv('DB_NAME') ?: 'canciones';
+
+        // Validar configuración
+        if (empty($this->host) || empty($this->usuario) || empty($this->baseDatos)) {
+            $this->logger->critical('Configuración de base de datos incompleta.');
+            die("Error crítico: Configuración de base de datos incompleta.");
+        }
+
+        // Intentar conectar
         try {
             $this->conexion = new PDO(
                 "mysql:host=$this->host;dbname=$this->baseDatos;charset=utf8mb4",
@@ -27,9 +41,16 @@ class DB
                 $this->password
             );
             $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $logger->info('Conexión exitosa a la base de datos.');
+            $this->logger->info('Conexión exitosa a la base de datos.', [
+                'host' => $this->host,
+                'baseDatos' => $this->baseDatos
+            ]);
         } catch (PDOException $e) {
-            $logger->error('Error de conexión.', ['error' => $e->getMessage()]);
+            $this->logger->error('Error de conexión.', [
+                'error' => $e->getMessage(),
+                'host' => $this->host,
+                'baseDatos' => $this->baseDatos
+            ]);
             die("Error de conexión: " . $e->getMessage());
         }
     }
@@ -44,12 +65,10 @@ class DB
 
     public function obtenerConexion()
     {
-        $logger = Logger::getLogger();
-
         if ($this->conexion) {
-            $logger->info('Conexión obtenida correctamente.');
+            $this->logger->info('Conexión obtenida correctamente.');
         } else {
-            $logger->warning('Conexión no válida.');
+            $this->logger->warning('Conexión no válida.');
         }
         return $this->conexion;
     }
