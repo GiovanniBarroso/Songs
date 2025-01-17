@@ -27,7 +27,7 @@ class ConsultasDBTest extends TestCase
 
     public function testBorrarCancion()
     {
-        $resultado = $this->utilidad->borrarCancion(999); // ID que no existe
+        $resultado = $this->utilidad->borrarCancion(999); 
         $this->assertFalse($resultado, 'Intentar borrar un ID inexistente debería devolver false.');
     }
 

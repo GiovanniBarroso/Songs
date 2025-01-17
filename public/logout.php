@@ -11,9 +11,11 @@ $logger = Logger::getLogger();
 $usuario = $_SESSION['usuario'] ?? 'Desconocido';
 $logger->info("Cerrando sesión", ['usuario' => $usuario]);
 
+
 // Limpiar todos los datos de la sesión
 $_SESSION = [];
 session_destroy();
+
 
 // Redirigir con un mensaje de éxito
 header("Location: login.php?mensaje=" . urlencode("Sesión cerrada correctamente."));

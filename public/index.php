@@ -12,6 +12,8 @@ $logger->info("Acceso a index.php", ['usuario' => $_SESSION['usuario'] ?? 'Desco
 
 $consultasDB = new utilidad();
 
+
+
 // Obtener las canciones dependiendo de la fecha seleccionada
 $fechaSeleccionada = $_GET['fecha'] ?? null;
 try {
@@ -41,6 +43,7 @@ try {
     die("Error al obtener las canciones.");
 }
 
+
 // Obtener todas las fechas disponibles
 try {
     $fechasDisponibles = $consultasDB->obtenerFechas();
@@ -54,6 +57,7 @@ try {
     $logger->error("Excepción al obtener fechas", ['error' => $e->getMessage()]);
     die("Error al obtener las fechas disponibles.");
 }
+
 
 // Redirigir a la vista
 require __DIR__ . '/../views/index_view.php';

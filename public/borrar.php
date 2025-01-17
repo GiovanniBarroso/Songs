@@ -29,6 +29,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     $logger->error('ID no válido recibido.');
 }
 
+
+
 // Si se confirma el borrado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
     $id = intval($_POST['id']);
@@ -50,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
         }
     }
 }
+
 
 // Cargar la vista
 require __DIR__ . '/../views/borrar_view.php';

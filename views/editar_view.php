@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
     <title>Modificar Canción</title>
 </head>
 
 <body class="bg-light">
     <div class="container mt-5">
         <h1 class="text-center mb-4">Modificar Canción</h1>
+
 
         <!-- Mostrar errores -->
         <?php if (!empty($error)): ?>
@@ -19,6 +21,7 @@
             </div>
         <?php endif; ?>
 
+
         <!-- Mostrar mensajes de éxito -->
         <?php if (!empty($mensaje)): ?>
             <div class="alert alert-success" role="alert" aria-live="polite">
@@ -26,10 +29,12 @@
             </div>
         <?php endif; ?>
 
+
         <form class="card shadow-sm p-4" method="POST" action="../public/editar.php">
             <!-- Input oculto para pasar el ID -->
             <input type="hidden" name="id"
                 value="<?php echo htmlspecialchars($cancion['ID'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+
 
             <!-- Campo de Autor -->
             <div class="mb-3">
@@ -38,12 +43,14 @@
                     value="<?php echo htmlspecialchars($cancion['autor'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
             </div>
 
+
             <!-- Campo de Título -->
             <div class="mb-3">
                 <label for="titulo" class="form-label">Título</label>
                 <input type="text" id="titulo" name="titulo" class="form-control"
                     value="<?php echo htmlspecialchars($cancion['titulo'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
             </div>
+
 
             <!-- Campo de Fecha -->
             <div class="mb-3">
@@ -52,12 +59,14 @@
                     value="<?php echo htmlspecialchars($cancion['fecha'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
             </div>
 
+
             <!-- Botones -->
             <div class="d-flex justify-content-between">
                 <button type="submit" name="editar" class="btn btn-primary">Modificar</button>
                 <a href="index.php" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
+        
     </div>
 </body>
 

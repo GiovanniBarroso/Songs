@@ -18,6 +18,8 @@ class Utilidad
         $this->logger = Logger::getLogger();
     }
 
+
+    
     // Método auxiliar para ejecutar consultas
     private function ejecutarConsulta($query, $params = [])
     {
@@ -34,6 +36,8 @@ class Utilidad
             throw new \Exception("Error en la consulta SQL: " . $e->getMessage());
         }
     }
+
+
 
     // Obtener todas las canciones o filtradas por fecha
     public function obtenerCanciones($fecha = null)
@@ -52,6 +56,8 @@ class Utilidad
         return $resultado;
     }
 
+
+
     // Obtener canción por ID
     public function obtenerCancionPorId($id)
     {
@@ -65,6 +71,8 @@ class Utilidad
         return $resultado;
     }
 
+
+
     // Obtener fechas únicas
     public function obtenerFechas()
     {
@@ -77,6 +85,8 @@ class Utilidad
 
         return $resultado;
     }
+
+
 
     // Borrar una canción por ID
     public function borrarCancion($id)
@@ -93,6 +103,8 @@ class Utilidad
 
         return $exito;
     }
+
+
 
     // Editar una canción
     public function editarCancion($id, $autor, $titulo, $fecha)
@@ -118,6 +130,8 @@ class Utilidad
 
         return $exito;
     }
+
+
 
     // Obtener usuario por email
     public function obtenerUsuarioPorEmail($email)

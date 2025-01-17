@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
     <title>Lista de Canciones</title>
 </head>
+
 
 <body>
     <div class="container mt-5">
@@ -17,12 +19,14 @@
             </form>
         </div>
 
+
         <!-- Mensaje de éxito -->
         <?php if (!empty($_GET['mensaje'])): ?>
             <div class="alert alert-success text-center">
                 <?php echo htmlspecialchars($_GET['mensaje'], ENT_QUOTES, 'UTF-8'); ?>
             </div>
         <?php endif; ?>
+
 
         <!-- Formulario de filtro por fecha -->
         <form class="d-flex justify-content-between mb-4 align-items-end">
@@ -41,9 +45,11 @@
             <button type="submit" class="btn btn-primary">Buscar</button>
         </form>
 
+
         <!-- Tabla de canciones -->
         <div class="table-container">
             <table class="table table-striped table-hover align-middle">
+
                 <thead class="table-dark">
                     <tr>
                         <th>Autor</th>
@@ -52,6 +58,7 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     <?php if (empty($canciones)): ?>
                         <tr>
@@ -82,12 +89,15 @@
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
+                
             </table>
         </div>
+
 
         <footer>
             <p>&copy; <?php echo date('Y'); ?> Sistema de Gestión de Canciones</p>
         </footer>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

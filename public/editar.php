@@ -15,6 +15,8 @@ $cancion = null;
 
 $logger->info("Acceso a editar.php", ['usuario' => $_SESSION['usuario'] ?? 'Desconocido']);
 
+
+
 // Verificar si el formulario fue enviado mediante POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Capturar los datos enviados
@@ -22,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $autor = trim($_POST['autor'] ?? '');
     $titulo = trim($_POST['titulo'] ?? '');
     $fecha = $_POST['fecha'] ?? '';
+
 
     // Validar que los campos no estén vacíos
     if (!$id || empty($autor) || empty($titulo) || empty($fecha)) {
@@ -73,6 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+
+
 // Capturar el ID de la canción desde GET
 $id = $_GET['id'] ?? null;
 
@@ -95,6 +100,8 @@ if (!$id) {
         ]);
     }
 }
+
+
 
 // Mostrar la vista
 require __DIR__ . '/../views/editar_view.php';

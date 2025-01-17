@@ -9,9 +9,11 @@ session_start();
 $error = ''; // Variable para almacenar errores
 $email = ''; // Para mantener el valor del campo email en caso de error
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
+
 
     // Validar campos vacíos
     if (empty($email) || empty($password)) {
@@ -36,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
 
 // Mostrar la vista
 require __DIR__ . '/../views/login_view.php';
