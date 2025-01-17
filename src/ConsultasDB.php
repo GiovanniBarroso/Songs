@@ -46,16 +46,12 @@ class ConsultasDB
     // Borrar una canción por ID
     public function borrarCancion($id)
     {
-        $stmt = $this->conexion->prepare("DELETE FROM canciones WHERE ID = :id"); // Verifica el uso de 'ID' en mayúsculas
+        $stmt = $this->conexion->prepare("DELETE FROM canciones WHERE ID = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-        if (!$stmt->execute()) {
-            error_log('Error al borrar canción: ' . print_r($stmt->errorInfo(), true));
-            return false;
-        }
-
-        return true;
+        $stmt->execute();
+        return $stmt->rowCount() > 0; // Devuelve true si se borró al menos una fila
     }
+
 
 
 
