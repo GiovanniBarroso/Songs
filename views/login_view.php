@@ -1,51 +1,3 @@
-<?php
-
-require __DIR__ . '/../vendor/autoload.php';
-
-use App\ConsultasDB;
-
-
-
-// Verifica si se ha enviado el formulario
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
-
-    // Verificar que no estén vacíos
-    if (empty($email) || empty($password)) {
-        die("Error: Todos los campos son obligatorios.");
-    }
-
-    // Validar formato de email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Error: Formato de email inválido.");
-    }
-
-    $consultasDB = new ConsultasDB();
-    $usuario = $consultasDB->obtenerUsuarioPorEmail($email);
-
-    if ($usuario) {
-        // Verificar la contraseña con password_verify
-        if (password_verify($password, $usuario['contrasenia_hash'])) {
-            $_SESSION['usuario'] = $email; // Guarda el email en la sesión
-            header("Location: index_view.php");
-            exit();
-        } else {
-            die("Error: Contraseña incorrecta.");
-        }
-    } else {
-        die("Error: Usuario no encontrado.");
-    }
-}
-
-?>
-<?php if (!empty($error)): ?>
-    <div class="alert alert-danger text-center">
-        <?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?>
-    </div>
-<?php endif; ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -59,10 +11,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="bg-light">
     <div class="container mt-5">
         <h1 class="text-center">Iniciar sesión</h1>
+
+        <!-- Mostrar mensaje de error -->
+        <?php if (!empty($error)): ?>
+            <div class="alert alert-danger text-center">
+                <?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Formulario -->
         <form class="card shadow-sm p-4" method="POST" action="login.php">
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" id="email" name="email" class="form-control" required>
+                <input type="email" id="email" name="email" class="form-control" required
+                    value="<?php echo htmlspecialchars($email ?? '', ENT_QUOTES, 'UTF-8'); ?>">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña:</label>

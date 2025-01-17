@@ -2,10 +2,10 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\ConsultasDB;
+use App\utilidad;
 
 // Prueba de conexión y funciones
-$ConsultasDB = new ConsultasDB();
+$ConsultasDB = new utilidad();
 
 // Obtener fechas
 echo "Fechas disponibles:<br>";

@@ -53,32 +53,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($canciones as $cancion): 
-                        $fechaActual = strtotime(date('Y-m-d'));
-                        $fechaCancion = strtotime($cancion['fecha']);
-                        $diferenciaDias = ($fechaActual - $fechaCancion) / (60 * 60 * 24);
-                    ?>
+                    <?php if (empty($canciones)): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($cancion['autor'], ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td><?php echo htmlspecialchars($cancion['titulo'], ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td><?php echo htmlspecialchars($cancion['fecha'], ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td>
-                                <div class="d-flex gap-2">
-                                    <?php if ($diferenciaDias > 7): ?>
-                                        <!-- Enlace para borrar -->
-                                        <a href="borrar.php?id=<?php echo htmlspecialchars($cancion['id'], ENT_QUOTES, 'UTF-8'); ?>" 
-                                           class="btn btn-danger btn-sm">Borrar</a>
-                                    <?php endif; ?>
-
-                                    <?php if ($fechaCancion > $fechaActual): ?>
-                                        <!-- Enlace para editar -->
-                                        <a href="editar.php?id=<?php echo htmlspecialchars($cancion['id'], ENT_QUOTES, 'UTF-8'); ?>" 
-                                           class="btn btn-warning btn-sm">Editar</a>
-                                    <?php endif; ?>
-                                </div>
-                            </td>
+                            <td colspan="4" class="text-center">No hay canciones disponibles.</td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php else: ?>
+                        <?php foreach ($canciones as $cancion): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($cancion['autor'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo htmlspecialchars($cancion['titulo'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo htmlspecialchars($cancion['fecha'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <?php if ($cancion['puedeBorrar']): ?>
+                                            <!-- Enlace para borrar -->
+                                            <a href="borrar.php?id=<?php echo htmlspecialchars($cancion['id'], ENT_QUOTES, 'UTF-8'); ?>" 
+                                               class="btn btn-danger btn-sm">Borrar</a>
+                                        <?php endif; ?>
+
+                                        <?php if ($cancion['puedeEditar']): ?>
+                                            <!-- Enlace para editar -->
+                                            <a href="editar.php?id=<?php echo htmlspecialchars($cancion['id'], ENT_QUOTES, 'UTF-8'); ?>" 
+                                               class="btn btn-warning btn-sm">Editar</a>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

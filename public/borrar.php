@@ -3,7 +3,7 @@
 require __DIR__ . '/../auth.php';
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\ConsultasDB;
+use App\utilidad;
 use App\Logger;
 
 $logger = Logger::getLogger();
@@ -12,7 +12,7 @@ $error = '';
 $mensaje = '';
 $cancion = null;
 
-$consultasDB = new ConsultasDB();
+$consultasDB = new utilidad();
 
 // Validar que se recibe un ID
 if (isset($_GET['id']) && !empty($_GET['id'])) {

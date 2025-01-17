@@ -5,7 +5,7 @@ namespace App;
 use App\DB;
 use PDO;
 
-class ConsultasDB
+class utilidad
 {
     private $conexion;
 

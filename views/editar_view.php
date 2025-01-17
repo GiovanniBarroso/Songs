@@ -10,49 +10,53 @@
 
 <body class="bg-light">
     <div class="container mt-5">
-        <h1 class="text-center">Modificar Canción</h1>
+        <h1 class="text-center mb-4">Modificar Canción</h1>
 
         <!-- Mostrar errores -->
         <?php if (!empty($error)): ?>
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger" role="alert" aria-live="assertive">
                 <?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?>
             </div>
         <?php endif; ?>
 
         <!-- Mostrar mensajes de éxito -->
         <?php if (!empty($mensaje)): ?>
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success" role="alert" aria-live="polite">
                 <?php echo htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8'); ?>
             </div>
         <?php endif; ?>
 
         <form class="card shadow-sm p-4" method="POST" action="../public/editar.php">
             <!-- Input oculto para pasar el ID -->
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($cancion['ID'], ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="id"
+                value="<?php echo htmlspecialchars($cancion['ID'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 
             <!-- Campo de Autor -->
             <div class="mb-3">
                 <label for="autor" class="form-label">Autor</label>
                 <input type="text" id="autor" name="autor" class="form-control"
-                    value="<?php echo htmlspecialchars($cancion['autor'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                    value="<?php echo htmlspecialchars($cancion['autor'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
             </div>
 
             <!-- Campo de Título -->
             <div class="mb-3">
                 <label for="titulo" class="form-label">Título</label>
                 <input type="text" id="titulo" name="titulo" class="form-control"
-                    value="<?php echo htmlspecialchars($cancion['titulo'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                    value="<?php echo htmlspecialchars($cancion['titulo'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
             </div>
 
             <!-- Campo de Fecha -->
             <div class="mb-3">
                 <label for="fecha" class="form-label">Fecha (YYYY-MM-DD)</label>
                 <input type="date" id="fecha" name="fecha" class="form-control"
-                    value="<?php echo htmlspecialchars($cancion['fecha'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                    value="<?php echo htmlspecialchars($cancion['fecha'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
             </div>
 
-            <!-- Botón de enviar -->
-            <button type="submit" name="editar" class="btn btn-primary w-100">Modificar</button>
+            <!-- Botones -->
+            <div class="d-flex justify-content-between">
+                <button type="submit" name="editar" class="btn btn-primary">Modificar</button>
+                <a href="index.php" class="btn btn-secondary">Cancelar</a>
+            </div>
         </form>
     </div>
 </body>

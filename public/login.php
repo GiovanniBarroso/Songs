@@ -2,11 +2,12 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\ConsultasDB;
+use App\utilidad;
 
 session_start();
 
-$error = '';
+$error = ''; // Variable para almacenar errores
+$email = ''; // Para mantener el valor del campo email en caso de error
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
@@ -16,20 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password)) {
         $error = "Todos los campos son obligatorios.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = "Formato de email inválido.";
+        $error = "El formato del email es inválido.";
     } else {
-        $consultasDB = new ConsultasDB();
+        $consultasDB = new utilidad();
         $usuario = $consultasDB->obtenerUsuarioPorEmail($email);
 
-        if ($usuario && password_verify($password, $usuario['contrasenia_hash'])) {
+        if (!$usuario) {
+            // Usuario no encontrado
+            $error = "El email ingresado no está registrado.";
+        } elseif (!password_verify($password, $usuario['contrasenia_hash'])) {
+            // Contraseña incorrecta
+            $error = "La contraseña es incorrecta.";
+        } else {
+            // Inicio de sesión exitoso
             $_SESSION['usuario'] = $email; // Guarda el email en la sesión
             header("Location: index.php");
             exit();
-        } else {
-            $error = "Email o contraseña incorrectos.";
         }
     }
 }
 
-// Mostrar la vista con el mensaje de error si lo hay
+// Mostrar la vista
 require __DIR__ . '/../views/login_view.php';
